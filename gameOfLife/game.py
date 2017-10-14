@@ -5,16 +5,20 @@ GLIDER = """ oo.
              o.o
              o.. """
 
+
 class Game(object):
-
-    def __init__(self, state, infinite_board = True):
-
+    def __init__(self, state, infinite_board=True):
+        '''
+        :param state: maintains state of board
+        :param infinite_board:
+        :return:
+        '''
         self.state = state
         self.width = state.width
         self.height = state.height
         self.infinite_board = infinite_board
 
-    def step(self, count = 1):
+    def step(self, count=1):
 
         for generation in range(count):
 
@@ -35,7 +39,9 @@ class Game(object):
 
         for hor in [-1, 0, 1]:
             for ver in [-1, 0, 1]:
-                if not hor == ver == 0 and (self.infinite_board == True or (0 <= x + hor < self.width and 0 <= y + ver < self.height)):
+                if not hor == ver == 0 and (
+                                self.infinite_board == True or (
+                                    0 <= x + hor < self.width and 0 <= y + ver < self.height)):
                     count += self.state.board[(y + ver) % self.height][(x + hor) % self.width]
 
         return count
@@ -43,8 +49,8 @@ class Game(object):
     def display(self):
         return self.state.display()
 
-class State(object):
 
+class State(object):
     def __init__(self, positions, x, y, width, height):
 
         active_cells = []
@@ -52,7 +58,7 @@ class State(object):
         for y, row in enumerate(positions.splitlines()):
             for x, cell in enumerate(row.strip()):
                 if cell == 'o':
-                    active_cells.append((x,y))
+                    active_cells.append((x, y))
 
         board = [[False] * width for row in range(height)]
 
@@ -77,11 +83,13 @@ class State(object):
 
         return output
 
+
 def main(board):
-    my_game = Game(State(board, x = 2, y = 3, width = 10, height = 10))
+    my_game = Game(State(board, x=2, y=3, width=10, height=10))
     print my_game.display()
     my_game.step(27)
     print my_game.display()
+
 
 if __name__ == '__main__':
     main(GLIDER)
