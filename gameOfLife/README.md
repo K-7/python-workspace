@@ -3,7 +3,6 @@
 
 ###### The code is written in Python 
 
-execute python script
 
 Sample execution format
 ```
