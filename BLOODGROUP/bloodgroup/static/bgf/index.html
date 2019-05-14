@@ -1,0 +1,270 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+		<title>BLOOD GROUP FINDER</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="js/jquery-1.7.min.js"></script>
+	    <script src="js/jquery.mobile-1.3.2.js"></script>
+		<script type="text/javascript">
+	    // making sure localStorage is window.localStorage
+	    // if('localStorage' in window && window['localStorage'] !== null){
+	      // var localStorage = window.localStorage;
+	    // }
+	
+	    $(document).bind("mobileinit", function(){
+	      function isAppleDevice(){
+	        return (
+	          (navigator.userAgent.toLowerCase().indexOf("ipad") > -1) ||
+	          (navigator.userAgent.toLowerCase().indexOf("iphone") > -1) ||
+	          (navigator.userAgent.toLowerCase().indexOf("ipod") > -1)
+	          );
+	      }
+	      if(!isAppleDevice()){
+	        $.mobile.defaultPageTransition = 'none';
+	        $.mobile.defaultDialogTransition = 'none';
+	        $.mobile.buttonMarkup.hoverDelay = 0; 
+	      }
+	      $.mobile.autoInitializePage = false;
+	
+	    });
+	  </script>
+		 
+		<link rel="stylesheet" href="css/jquery.mobile-1.3.2.css" />
+	    <link rel="stylesheet" href="css/jquery.simpledialog.min.css" />
+	    <script src="js/jquery.simpledialog.min.js"></script>
+	    <script type="text/javascript" src="js/custom.js"></script>
+	    <link rel="stylesheet" href="css/custom.css" />
+		
+</head> 
+	
+	
+<body> 
+	 <!-- LOGIN -->
+	<div data-role="page" id="login">
+				
+		<div data-role="header" data-fullscreen="true">
+			<h1>BGF</h1>
+		</div>
+		
+		<div data-role="content" id="login_content">
+			
+		    <!-- Username -->
+		      <label for="username">Username:</label>
+		      <input type="text" name="username" id="login_username" value="" />
+		
+		    <!-- Password -->
+		      <label for="password">Password:</label>
+		      <input type="password" name="password" id="login_password" value="" />
+			
+			<br/>
+		    <!-- Login Button -->
+		    <div id="login-button">
+		    <a href="#" id="btn-login" data-role="button"  data-inline='true' data-theme='b'>Login</a> <br/>
+			</div>
+			<br/><br/>
+			<a data-role="button" href="#register" class="btn-round" data-iconpos='top'  data-inline='true' id="btn-register">Register</a> <br/>
+		</div>
+		
+		<div data-role="footer" data-position="fixed" data-iconpos="top">
+		
+		</div>
+		
+	</div>	
+	<!--END HOME -->
+	
+	
+	<!-- REGISTRATION -->
+	<div data-role="page" id="register">
+				
+		<div data-role="header" data-fullscreen="true">
+			<a href="#" id="register_bck" data-role="button" data-icon="back" data-inline="true" data-corners="true" title="Back" data-iconpos="notext" data-mini="true" ></a>
+			<h1>BGF</h1>
+		</div>
+
+		<div data-role="content" id="register_content"> 
+			<b style="padding-left: 40%;">Register user Details</b> <br/><br/>
+			
+			<input type="hidden" value="" id="user_id" /> 
+			
+			<label for="username">Name *</label>
+			<input type="text" name="username" class="field" id="username" value="" />
+			
+			<div id="password1_block">
+			<label for="password1">Password *</label>
+			<input type="password" name="password1" class="field" id="password1" value="" />
+			</div>
+			
+			<div id="password2_block">
+			<label for="password2">Confirm Password *</label>
+			<input type="password" name="password2" class="field" id="password2" value="" />
+			</div>
+			
+			<label for="first_name">First Name *</label>
+			<input type="text" name="first_name" class="field" id="first_name" value="" />
+			
+			<label for="last_name">Last Name</label>
+			<input type="text" name="last_name" class="field" id="last_name" value="" />
+			
+			<label for="blood">Blood Group *</label>
+			<select name="blood" id="blood" class="field" data-native-menu="false">
+				<option value="">Select a group</option>
+			    <option value="O+">O+</option>
+			    <option value="O-">O-</option>
+			    <option value="A+">A+</option>
+			    <option value="A-">A-</option>
+			    <option value="B+">B+</option>
+			    <option value="B-">B-</option>
+			    <option value="AB+">AB+</option>
+			    <option value="AB-">AB-</option>
+			</select>
+			
+			<label for="mobile">Mobile *</label>
+			<input type="text" name="mobile" class="field" id="mobile" value="" />
+			
+			<label for="address">Address </label>
+			<textarea cols="40" rows="8" name="address" class="field" id="address"></textarea>
+			
+			<div id="availability_block">
+			<div data-role="fieldcontain">
+			<label for="available">Availability *</label>
+			<select name="available" id="available" class="field" data-role="slider" data-mini="true">
+			    <option value="y">Yes</option>
+			    <option value="n">No</option>
+			</select>
+			</div>
+			</div>
+			
+			<label for="email">Email :</label>
+			<input type="text" name="email" class="field" id="email" value="" />
+			
+			<br/>
+			<div id="message" style="color: red;padding-left: 40%;"></div>
+			<br/>
+			<div style="text-align: center;">
+			<input type="submit" data-role="button" data-inline="true" value="SAVE " id="save" data-icon="star" data-theme="b">
+			</div>
+			
+		</div>
+		
+		<div data-role="footer">
+		<div data-role="navbar" data-iconpos="bottom">
+		  <ul>
+		    
+		  </ul>
+		</div>
+		</div>
+		
+	</div>	
+	<!--END REGISTRATION -->
+	
+	 <!-- SEARCH -->
+	<div data-role="page" id="search">
+		
+		<div data-role="panel" id="popupPanel">
+			<ul data-role="listview" data-inset="true" id="ul-popupPanel">
+				<li><a href="#change_pswd" id="btn-change-password">Change Password</a></li>
+				<li><a href="#" id="btn-update-profile">Update profile</a></li>
+				<li><a href="#" id="btn-update-availability">Set Availability</a></li>
+				<li><a href="#" id="btn-notifications">Notifications</a></li>
+				<li><a href="#" id="btn-logout">Logout</a></li>
+			</ul>
+		</div><!-- /panel -->
+			
+		<div data-role="header" data-fullscreen="true">
+			<a href="#popupPanel" data-role="button" data-icon="bars" data-inline="true" data-corners="true" title="Options" data-iconpos="notext" data-mini="true" ></a>
+			<h1>Search</h1>
+		</div>
+		
+		<div data-role="content" id="search_content"> 
+			
+			<div class="ui-grid-b">
+
+				<div class="ui-block-a">
+				<select name="blood" id="blood_grp" class="field" data-native-menu="false">
+					<option value="">Select a Blood group to be searched</option>
+				    <option value="O+">O+</option>
+				    <option value="O-">O-</option>
+				    <option value="A+">A+</option>
+				    <option value="A-">A-</option>
+				    <option value="B+">B+</option>
+				    <option value="B-">B-</option>
+				    <option value="AB+">AB+</option>
+				    <option value="AB-">AB-</option>
+				</select>
+				</div>
+				<div class="ui-block-b">
+					<select name="area" id="area" class="field" data-native-menu="false">
+					<option value="">select range</option>
+				    <option value="">All</option>
+				    <option value="10">10km</option>
+				    <option value="50">50km</option>
+				    <option value="100">100km</option>
+				    <option value="all">All</option>
+				</select>
+				</div>
+				<div class="ui-block-c"><a data-role="button" data-inline="true" id="btn-search">search</a></div>
+			</div>
+			<div>
+				<ul data-role="listview" data-inset="true" id="ul-lead-list">
+
+    			</ul>
+			</div>
+		</div>
+		
+		<div data-role="footer" data-position="fixed" data-iconpos="top">
+		
+		</div>
+		
+	</div>	
+	<!--END SEARCH -->
+	
+	<div data-role="page" id="change_pswd">
+			
+		<div data-role="header" data-fullscreen="true">
+			<a href="#search" data-role="button" data-icon="back" data-inline="true" data-corners="true" title="Back" data-iconpos="notext" data-mini="true" ></a>
+			<h1 id="Change Password"></h1>
+		</div>
+
+		<div data-role="content" id="change_pswd_content"> 
+			<label for="old_password">Old Password *</label>
+			<input type="password" name="old_password" class="field" id="old_password" value="" />
+			
+			<label for="new_password">New Password *</label>
+			<input type="password" name="new_password" class="field" id="new_password" value="" />
+			
+			<label for="confirm_password">Confirm Password *</label>
+			<input type="password" name="confirm_password" class="field" id="confirm_password" value="" />
+			
+			<div style="text-align: center;">
+			<input type="submit" data-role="button" data-inline="true" value="UPDATE " id="password_update" data-icon="star" data-theme="b">
+			</div>
+		</div>
+		
+		<div data-role="footer" data-position="fixed" data-iconpos="top">
+		
+		</div>
+		
+	</div>	
+	
+	
+	 <!-- dashboard -->
+	<div data-role="page" id="dashboard">
+			
+		<div data-role="header" data-fullscreen="true">
+			<a href="#search" data-role="button" data-icon="back" data-inline="true" data-corners="true" title="Back" data-iconpos="notext" data-mini="true" ></a>
+			<h1 id="dashboard_header"></h1>
+		</div>
+
+		<div data-role="content" id="dashboard_content"> 
+			
+		</div>
+		
+		<div data-role="footer" data-position="fixed" data-iconpos="top">
+		
+		</div>
+		
+	</div>	
+	<!--END SETTINGS -->
+	
+</body>		
+</html>

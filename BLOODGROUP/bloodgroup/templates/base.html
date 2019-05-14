@@ -1,0 +1,56 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>{% block head_title_base %}HTML email forum{% block head_title %}{% endblock %}{% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<link rel="stylesheet" href="{{ STATIC_URL }}jquery.mobile-1.3.2/jquery.mobile-1.3.2.css" />
+		<script src="{{ STATIC_URL }}script/jquery-1.9.1.js"></script>
+		<script src="{{ STATIC_URL }}jquery.mobile-1.3.2/jquery.mobile-1.3.2.min.js"></script>
+		
+		{% block extra_head %}{% endblock %}
+	</head> 
+	
+	
+	<body> 
+	<div data-role="page">
+		
+				
+		<div data-role="header" data-fullscreen="true"><!-- /header -->
+			<h1>My Title</h1>
+			{% block topbar %}
+			{% endblock %}
+		</div>
+		
+		
+
+		<div data-role="content" id="contentMain" name="contentMain">  <!-- /content -->
+			{% block body_base %}	
+			{% endblock %}
+		</div>
+		
+		<div align="CENTER" data-role="content" id="contentmessage" name="contentmessage">  
+  		
+  		</div> 
+		
+		<div data-role="footer">
+		<div data-role="navbar" data-iconpos="bottom">
+		  <ul>
+		    <li><a data-iconpos="notext" data-theme="a" data-role="button" data-icon="home" title=" Home ">
+				<span class="ui-btn-text"> Home </span>
+				</span>
+				</a></li>
+		    <li><a data-iconpos="notext" data-theme="a" data-role="button" data-icon="gear" title=" Settings ">
+				<span class="ui-btn-text"> Settings </span>
+				</span>
+				</a></li>
+			<li><a data-iconpos="notext" data-theme="a" data-role="button"  data-icon="back" title=" Back ">
+				<span class="ui-btn-text"> Back </span>
+				</span>
+				</a></li>
+		  </ul>
+		</div>
+		</div>
+		
+	</div>	
+	</body>		
+</html>
