@@ -1,0 +1,9 @@
+*.pyc
+*.log
+*.csv
+*.RData
+.DS_Store
+**/.pydevproject
+.pydevproject
+env/
+.idea/*

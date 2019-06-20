@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+echo "No dependencies to install - default python3 interpreter required !"
+
+#echo "Run Test Suit to validate"
+#sh run_functional_tests
+
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+echo "Run test cases to validate"
+python3 $DIR/../test_app.py
+
+echo "Run parking_lot shell script"
+python3 $DIR/../main.py $DIR/../data/file_input.txt
