@@ -1,47 +1,30 @@
-import models
-
-
-class Processor(models.BaseProcessor):
-
-    def __process_message(self, sender, receiver, message_obj):
-        if message_obj.did_message_map_emblem():
-            self.allies.append(receiver)
-            if len(self.allies) > 2:
-                self.ruler = sender
-
-    def process_input(self, input):
-        if input == 'Who is the ruler of Southeros?':
-            return self.ruler
-        elif input == 'Allies of Ruler?':
-            return self.allies or None
-        else:
-            name, message_txt = input.split(', ')
-            kingdom = self.get_kingdom(name)
-            ruler_kingdom = self.get_kingdom('space')
-            message_txt = message_txt.replace('"', '')
-            message_obj = self.get_message_obj(ruler_kingdom, kingdom, message_txt)
-            self.__process_message(ruler_kingdom, kingdom, message_obj)
-            return -1
-
-    def print_output(self, output):
-        if output != -1:
-            if type(output) == models.Kingdom and output.name == 'space':
-                print('Output: King Shan')
-            elif type(output) == list:
-                output_allies = [out.display_name for out in output]
-                print('Output: {0}'.format(', '.join(output_allies)))
-            else:
-                print('Output: {0}'.format(output))
+from core.summary import Summary
+from problem1.processor import Processor
 
 
 def main():
-    output = None
     processor = Processor()
-    while True:
+    user_input = True
+    # Print the output once before starting
+    processor.print_results()
+    Summary.print_message('\nInput Messages to kingdoms from King Shan:')
+    while user_input:
         user_input = input('Input: ')
+        # If no input given by user then break
         if user_input:
-            output = processor.process_input(user_input)
-            processor.print_output(output)
+            # Parse & vlidate the input
+            name, message_txt = processor.parse_input(user_input)
+            isvalid, message = processor.validate(name, message_txt)
+            # Caste the vote to vote ballot
+            if isvalid:
+                processor.cast_vote(name, message_txt)
+            else:
+                Summary.print_error(message)
+        else:
+            # Once casting of vote is stopped, process & print the results
+            user_input = False
+            processor.process_votes()
+            processor.print_results()
 
 
 if __name__ == '__main__':

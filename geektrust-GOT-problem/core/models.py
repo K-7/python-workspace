@@ -1,9 +1,35 @@
 """
 All the common Classes & functions are declared in this file
+
+Areas of Improvement:
+The output is incorrect. If 'Air, owl' as a message is sent 3 times,
+then the solution declares King Shan as the King and displays Air as an ally 3 times.
+This is not correct as King Shan needs to win 3 kingdoms to rule Southeros.
+
+All the logic is in one big method/file which makes the code hard to read and maintain.
+Currently Processor in problem2.py class has too many responsibilities.
+Ideally a class should have one responsibility [Single Responsibility Principle].
+Try to break it down to smaller classes.
+
+The Proccessor class has behaviours like kingdoms casting their votes,
+high priest picking random votes, validation of the votes, calculation of the votes, processing input etc.
+Ideally the processor should just have been an orchestrator.
+Try to identify some more domain models.
+And delegate some of the behaviours to the new classes and existing classes.
+Currently Kingdom class has no behaviour. The secret message is sent to a Kingdom.
+The kingdom should be able to tell whether the message is valid or not.
+
+Try to keep the problem class as light as possible.
+Delegate the behaviours to all the domain classes.
+Tests are not really unit tests.
+Ideally all public methods in the solution should be tested as individual units.
+
 """
+import os
 import random
 from collections import Counter
-from abc import ABC, abstractmethod
+
+from core.constants import KINGDOMS
 
 
 class Kingdom(object):
@@ -20,9 +46,20 @@ class Kingdom(object):
 
         super().__setattr__(name, value)
 
+    def __str__(self):
+        return self.display_name
+
     @property
     def display_name(self):
         return self.name.capitalize()
+
+    @classmethod
+    def get_kingdom(cls, name):
+        return Kingdom(
+            name=name,
+            emblem=KINGDOMS[name],
+            ruler=False
+        )
 
 
 class Message(object):
@@ -52,7 +89,8 @@ class Message(object):
 class MessageTable(object):
     """
     Loads all messages from the default file location
-    and picks a random message
+    and picks a random message.
+    This is a singleton class
     """
     __instance = None
 
@@ -72,7 +110,8 @@ class MessageTable(object):
         # Read a file and load it to a List line by line
         if self.message_list:
             return
-        with open('messages.txt', 'r') as f:
+        root_path = os.path.dirname(os.path.abspath(__file__))
+        with open('{0}/../data/messages.txt'.format(root_path), 'r') as f:
             for line in f:
                 self.message_list.append(line.strip())
 
@@ -80,57 +119,8 @@ class MessageTable(object):
         # Get random message from the List
         return random.choice(self.message_list)
 
-
-class BaseProcessor(ABC):
-    def __init__(self):
-        self.ruler = None
-        self.allies = []
-        self.kingdoms = {
-            'land': 'panda',
-            'water': 'octopus',
-            'ice': 'mammoth',
-            'air': 'owl',
-            'fire': 'dragon',
-            'space': 'gorilla'
-        }
-
-    def get_kingdom(self, name):
-        if name.lower() not in self.kingdoms.keys():
-            raise ValueError('Invalid kingdom name')
-
-        return Kingdom(
-            name=name.lower(),
-            emblem=self.kingdoms[name.lower()],
-            ruler=False
-        )
-
-    def get_random_kingdom(self, excluded_name=None):
-        # Get random Kingdom from the available list
-        name = None
-        while name == excluded_name or name is None:
-            name = random.choice(self.kingdoms.keys())
-        return self.get_kingdom(name)
-
-    def get_message_obj(self, sender, receiver, message):
-        return Message(
-            sender=sender,
-            receiver=receiver,
-            message=message
-        )
-
-    @abstractmethod
-    def process_input(self):
-        pass
-
-    def print_output(self, output):
-        if output != -1:
-            if type(output) == Kingdom:
-                print('Output: {0}'.format(output.name))
-            elif type(output) == list:
-                output_allies = [out.display_name for out in output]
-                print('Output: {0}'.format(', '.join(output_allies)))
-            elif type(output) == dict:
-                for kingdom, allies in output.items():
-                    print('Output: Allies for {0} : {1}'.format(kingdom, len(allies)))
-            else:
-                print('Output: {0}'.format(output))
+    @classmethod
+    def get_random_message(cls):
+        # Get random message from MessageTable
+        message_table = MessageTable()
+        return message_table.get_message()
