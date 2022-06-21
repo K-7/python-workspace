@@ -48,7 +48,7 @@ linear-tsv==1.1.0
 Mako==1.0.8
 Markdown==3.1
 MarkupSafe==1.1.1
-numpy==1.16.2
+numpy==1.22.0
 openpyxl==2.4.11
 pandas==0.23.4
 parsedatetime==2.4
